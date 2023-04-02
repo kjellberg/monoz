@@ -1,12 +1,15 @@
 require "yaml"
+require "active_support/core_ext/module/delegation"
 
 module Monoz
   class Configuration
     attr_reader :config_file_path
+    delegate_missing_to :@contents
 
     def initialize(dir_path)
       @config_file_path = find_config_file(dir_path)
       raise Monoz::Errors::ConfigurationNotFound unless @config_file_path
+      @contents = load_config(@config_file_path) || {}
     end
 
     def contents
@@ -19,7 +22,7 @@ module Monoz
 
     class << self
       def default_config
-        { projects: ["apps", "gems"] }
+        { folders: ["apps", "gems"] }
       end
     end
 

@@ -8,11 +8,10 @@ module Monoz
 
     def initialize(file_path)
       @items = []
-      search_paths = [
-        File.join(file_path, "apps"),
-        File.join(file_path, "gems")
-      ]
+      project_folders = Monoz.config.dig(:folders)
 
+      search_paths = project_folders.map { |folder| File.join(file_path, folder) }
+      
       search_paths.each do |search_path|
         Dir.glob(File.join(search_path, "*/Gemfile")).each do |gemfile_path|
           project_path = File.dirname(gemfile_path)
