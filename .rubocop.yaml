@@ -1,0 +1,65 @@
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Lint/ShadowedException:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+RSpec/VariableName:
+  Enabled: false
+
+Metrics/ClassLength:
+  Description: "Avoid classes longer than 100 lines of code."
+  Max: 100
+  Enabled: true
+
+Metrics/ModuleLength:
+  Description: "Avoid modules longer than 100 lines of code."
+  Max: 100
+  Enabled: true
+
+Metrics/ParameterLists:
+  Description: "Pass no more than four parameters into a method."
+  Max: 4
+  Enabled: true
+
+Metrics/MethodLength:
+  Description: "Avoid methods longer than 5 lines of code."
+  StyleGuide: "<https://github.com/bbatsov/ruby-style-guide#short-methods>"
+  Max: 10
+  Enabled: true
+
+Layout/LineLength:
+  Max: 130
+  Enabled: true
+
+Rails/RakeEnvironment:
+  Enabled: false
+
+RSpec/EmptyExampleGroup:
+  Enabled: false
+
+RSpec/Rails/InferredSpecType:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: true
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
