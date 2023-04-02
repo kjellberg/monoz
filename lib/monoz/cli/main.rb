@@ -26,6 +26,9 @@ module Monoz
       def inspect
         projects = Monoz::ProjectCollection.new(Monoz.config.root_path)
 
+        pp projects
+        exit(0)
+
         say "Project \tType \tFile path", :bold
         projects.each do |project|
           say "#{project.name} \t", nil, false

@@ -15,8 +15,7 @@ module Monoz
       search_paths.each do |search_path|
         Dir.glob(File.join(search_path, "*/Gemfile")).each do |gemfile_path|
           project_path = File.dirname(gemfile_path)
-          gemspec_path = Dir.glob(File.join(project_path, "*.gemspec")).first
-          project = Project.new(File.basename(project_path), project_path, gemspec_path)
+          project = Project.new(project_path)
           @items << project
         end
       end
