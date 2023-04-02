@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 module Monoz
   class Project
-    attr_reader :name, :root_path, :gemspec, :type, :dependencies, :gem_name
+    attr_reader :name, :root_path, :gemspec, :type, :dependencies, :gem_name, :dependants
 
     def initialize(root_path)
       @root_path = root_path
@@ -44,6 +42,7 @@ module Monoz
       @name = File.basename(root_path)
       @gem_name = @gemspec.dig(:name) if is_gem?
       @type = is_gem? ? "gem" : "app"
+      @dependants = []
     end
 
     def gemspec_path
@@ -81,6 +80,17 @@ module Monoz
       end
 
       dependencies
+    end
+
+    public
+
+    # Update dependants of this project based on other projects in the collection
+    def update_dependants(collection)
+      collection.each do |project|
+        if project.dependencies.key?(name)
+          project.dependants << self
+        end
+      end
     end
   end
 end

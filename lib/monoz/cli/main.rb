@@ -27,11 +27,11 @@ module Monoz
         projects = Monoz::ProjectCollection.new(Monoz.config.root_path)
 
         say "Project \tType \tGem Name \tDependants", :bold
-        projects.each do |project|
+        projects.order(:name).each do |project|
           say "#{project.name} \t", nil, false
           say "#{project.type} \t", (project.is_gem? ? :green : :blue), false
           say "#{project.is_gem? ? project.gem_name : "\t" } \t", nil, false
-          say "foo, bar, zoo"
+          say "#{project.dependants.join(", ")}"
         end
       end
 
