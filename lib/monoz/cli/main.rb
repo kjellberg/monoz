@@ -1,22 +1,37 @@
 # frozen_string_literal: true
 
 require "thor"
-require "pathname"
+require "yaml"
  
 module Monoz
   module Cli
     class Main < Thor
-      desc "init", "Initialize your monorepo"
-      def init
-        say "Hello from init"
+      desc "init [PATH]", "Initialize your monorepo at the specified PATH"
+      def init(path = ".")
+        config_file_path = File.join(File.expand_path(path), "monoz.yaml")
+
+        if File.exist?(config_file_path)
+          say "Error: monoz.yaml already exists in #{config_file_path}", :red
+          return
+        end
+
+        FileUtils.mkdir_p(File.dirname(config_file_path))
+
+        File.write(config_file_path, Monoz::Configuration.default_config.to_yaml)
+
+        say "Created a monoz.yaml file in #{config_file_path}", :green
       end
 
-      desc "inspect", "Inspect the monorepo"
+      desc "inspect", "Inspect your Monozrepo"
       def inspect
-        current_dir = Pathname.new(Dir.pwd)
-        projects = Monoz::ProjectCollection.new(current_dir)
+        projects = Monoz::ProjectCollection.new(Monoz.config.root_path)
 
-        pp projects.all
+        say "Project \tType \tFile path", :bold
+        projects.each do |project|
+          say "#{project.name} \t", nil, false
+          say "#{project.type} \t", (project.type == "app" ? :blue : :green), false
+          say "#{project.root_path}"
+        end
       end
 
       desc "version", "Get the current version of Monoz"

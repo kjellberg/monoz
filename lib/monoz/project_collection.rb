@@ -1,11 +1,13 @@
 require "pathname"
+require "active_support/core_ext/module/delegation"
 
 module Monoz
   class ProjectCollection
-    attr_reader :all
+    include Enumerable
+    delegate_missing_to :@items
 
     def initialize(file_path)
-      @all = []
+      @items = []
       search_paths = [
         File.join(file_path, "apps"),
         File.join(file_path, "gems")
@@ -16,9 +18,17 @@ module Monoz
           project_path = File.dirname(gemfile_path)
           gemspec_path = Dir.glob(File.join(project_path, "*.gemspec")).first
           project = Project.new(File.basename(project_path), project_path, gemspec_path)
-          @all << project
+          @items << project
         end
       end
+    end
+
+    def exist?(id)
+      !!_find(id)
+    end
+
+    def _find(id)
+      @items.select { |i| i.id == id }&.first
     end
   end
 end
