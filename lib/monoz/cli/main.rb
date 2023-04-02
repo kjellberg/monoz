@@ -26,14 +26,12 @@ module Monoz
       def inspect
         projects = Monoz::ProjectCollection.new(Monoz.config.root_path)
 
-        pp projects
-        exit(0)
-
-        say "Project \tType \tFile path", :bold
+        say "Project \tType \tGem Name \tDependants", :bold
         projects.each do |project|
           say "#{project.name} \t", nil, false
-          say "#{project.type} \t", (project.type == "app" ? :blue : :green), false
-          say "#{project.root_path}"
+          say "#{project.type} \t", (project.is_gem? ? :green : :blue), false
+          say "#{project.is_gem? ? project.gem_name : "\t" } \t", nil, false
+          say "foo, bar, zoo"
         end
       end
 

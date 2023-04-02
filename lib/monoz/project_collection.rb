@@ -16,7 +16,7 @@ module Monoz
         Dir.glob(File.join(search_path, "*/Gemfile")).each do |gemfile_path|
           project_path = File.dirname(gemfile_path)
           project = Project.new(project_path)
-          @items << project
+          @items << project if project.valid?
         end
       end
     end
