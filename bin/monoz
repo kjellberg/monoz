@@ -3,4 +3,4 @@
 
 require "monoz"
 
-Monoz::Cli.start(ARGV)
+Monoz::Cli::Main.start(ARGV)

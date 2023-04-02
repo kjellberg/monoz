@@ -5,5 +5,7 @@ require_relative "monoz/version"
 module Monoz
   class Error < StandardError; end
 
-  autoload "Cli", "monoz/cli"
+  module Cli
+    autoload "Main", "monoz/cli/main"
+  end
 end
