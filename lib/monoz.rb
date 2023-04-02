@@ -8,4 +8,7 @@ module Monoz
   module Cli
     autoload "Main", "monoz/cli/main"
   end
+
+  autoload "Project", "monoz/project"
+  autoload "ProjectCollection", "monoz/project_collection"
 end

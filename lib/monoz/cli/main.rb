@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require "thor"
-
+require "pathname"
+ 
 module Monoz
   module Cli
     class Main < Thor
@@ -12,7 +13,10 @@ module Monoz
 
       desc "inspect", "Inspect the monorepo"
       def inspect
-        say "List all available apps and gems"
+        current_dir = Pathname.new(Dir.pwd)
+        projects = Monoz::ProjectCollection.new(current_dir)
+
+        pp projects.all
       end
 
       desc "version", "Get the current version of Monoz"
