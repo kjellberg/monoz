@@ -21,11 +21,19 @@ module Monoz
 
   class << self
     def config
-      @config ||= Monoz::Configuration.new(Pathname.new(Dir.pwd))
+      @config ||= Monoz::Configuration.new(pwd)
     end
 
     def projects
       Monoz::ProjectCollection.new(config.root_path)
+    end
+
+    def pwd
+      @pwd ||= Pathname.new(Dir.pwd)
+    end
+
+    def pwd=(value)
+      @pwd = value
     end
   end
 end

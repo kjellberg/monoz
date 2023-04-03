@@ -2,24 +2,35 @@
 
 require "thor"
 require "yaml"
+require "fileutils"
 
 module Monoz
   module Cli
     class Main < Thor
-      desc "init [PATH]", "Initialize your monorepo at the specified PATH"
+      class_option :src, type: :string, desc: "Set the source directory for your monozrepo"
+
+      desc "init [PATH]", "Initialize a monozrepo at the specified PATH"
       def init(path = ".")
-        config_file_path = File.join(File.expand_path(path), "monoz.yaml")
+        config_file_path = File.join(File.expand_path(path), "monoz.yml")
+        project_dir = File.dirname(config_file_path)
 
         if File.exist?(config_file_path)
           say "Error: monoz.yaml already exists in #{config_file_path}", :red
           return
         end
 
-        FileUtils.mkdir_p(File.dirname(config_file_path))
-
+        FileUtils.mkdir_p(project_dir)
+        FileUtils.mkdir_p(File.join(project_dir, "apps"))
+        FileUtils.mkdir_p(File.join(project_dir, "gems"))
+        FileUtils.touch(File.join(project_dir, "apps/.keep"))
+        FileUtils.touch(File.join(project_dir, "gems/.keep"))
         File.write(config_file_path, Monoz::Configuration.default_config.to_yaml)
 
-        say "Created a monoz.yaml file in #{config_file_path}", :green
+        FileUtils.chdir(project_dir) do
+          system "git", "init"
+        end
+
+        say "Successfully initialized Monoz in #{project_dir}", :green
       end
 
       desc "bundle", "Run bundle commands in all projects"

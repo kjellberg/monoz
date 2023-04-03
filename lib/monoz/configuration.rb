@@ -6,9 +6,9 @@ module Monoz
     attr_reader :config_file_path
     delegate_missing_to :@contents
 
-    def initialize(dir_path)
-      @config_file_path = find_config_file(dir_path)
-      raise Monoz::Errors::ConfigurationNotFound unless @config_file_path
+    def initialize(project_path)
+      @config_file_path = find_config_file(project_path)
+      raise Monoz::Errors::ConfigurationNotFound.new("Configuration not found at: #{project_path}") unless @config_file_path
       @contents = load_config(@config_file_path) || {}
     end
 
