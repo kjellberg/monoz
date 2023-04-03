@@ -11,6 +11,7 @@ module Monoz
 
   module Cli
     autoload "Main", "monoz/cli/main"
+    autoload "Bundle", "monoz/cli/bundle"
   end
 
   autoload "Configuration", "monoz/configuration"
@@ -20,6 +21,10 @@ module Monoz
   class << self
     def config
       @config ||= Monoz::Configuration.new(Pathname.new(Dir.pwd))
+    end
+
+    def projects
+      Monoz::ProjectCollection.new(config.root_path)
     end
   end
 end

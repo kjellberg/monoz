@@ -2,7 +2,7 @@
 
 require "thor"
 require "yaml"
- 
+
 module Monoz
   module Cli
     class Main < Thor
@@ -22,14 +22,15 @@ module Monoz
         say "Created a monoz.yaml file in #{config_file_path}", :green
       end
 
+      desc "bundle", "Run bundle commands in all projects"
+      subcommand "bundle", Monoz::Cli::Bundle
+
       desc "inspect", "Inspect your Monozrepo"
       def inspect
-        projects = Monoz::ProjectCollection.new(Monoz.config.root_path)
-
         say "Project \tType \tGem Name \tDependants", :bold
-        projects.order(:name).each do |project|
+        Monoz.projects.order(:name).each do |project|
           say "#{project.name} \t", nil, false
-          say "#{project.type} \t", (project.is_gem? ? :green : :blue), false
+          say "#{project.type} \t", project.text_color, false
           say "#{project.is_gem? ? project.gem_name : "\t" } \t", nil, false
           say "#{project.dependants.join(", ")}"
         end

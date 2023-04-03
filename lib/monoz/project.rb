@@ -19,6 +19,16 @@ module Monoz
       @root_path != nil && gemfile_path != nil
     end
 
+    def run(*command)
+      FileUtils.chdir(root_path) do
+        system(*command)
+      end
+    end
+
+    def text_color
+      is_gem? ? :green : :blue
+    end
+
     private
     def parse_project_files
       @gemspec = parse_gemspec
