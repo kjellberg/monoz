@@ -1,35 +1,34 @@
 # Monoz
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/monoz`. To experiment with that code, run `bin/console` for an interactive prompt.
+Monoz is a command-line tool that helps you manage your **ruby** monorepo. It provides an easy way to manage multiple related **ruby** projects and their dependencies in a single repository. Monoz helps you keep track of your projects and their interdependencies, making it easier to maintain and scale your codebase.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+You can install Monoz by running the following command:
 
-Install the gem and add to the application's Gemfile by executing:
+```console
+gem install monoz
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+## Getting started
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+To initialize a Monoz repository in the current directory, simply run:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```console
+monoz init
+```
 
-## Usage
+To initialize a Monoz repository in a specific directory, provide the path as an argument:
 
-TODO: Write usage instructions here
+```console
+monoz init path/to/repository
+```
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Once you've initialized your Monoz repository, you can start adding projects to it. Each project should contain at least a Gemfile and be placed in its own directory within the `apps/` or `gems/` folders in the Monoz repository.
 
 ## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/monoz.
+We welcome contributions from everyone! If you're interested in contributing to Monoz, please check out our contributing guidelines for more information.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+Monoz is released under the MIT License.
