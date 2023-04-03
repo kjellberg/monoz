@@ -29,6 +29,22 @@ module Monoz
       is_gem? ? :green : :blue
     end
 
+    def test_frameworks
+      frameworks = []
+
+      rspec_files = Dir.glob(File.join(@root_path, "**/*_spec.rb"))
+      if !rspec_files.empty?
+        frameworks << "rspec"
+      end
+
+      minitest_files = Dir.glob(File.join(@root_path, "test/**/*_test.rb"))
+      if !minitest_files.empty?
+        frameworks << "minitest"
+      end
+
+      frameworks
+    end
+
     private
     def parse_project_files
       @gemspec = parse_gemspec
@@ -52,6 +68,7 @@ module Monoz
       @name = File.basename(root_path)
       @gem_name = @gemspec.dig(:name) if is_gem?
       @type = is_gem? ? "gem" : "app"
+      @test_frameworks = 
       @dependants = []
     end
 

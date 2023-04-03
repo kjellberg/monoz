@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "thor", "~> 1.2"
   spec.add_dependency "activesupport", "~> 7"
+  spec.add_dependency "terminal-table", "~> 3.0.1"
 end

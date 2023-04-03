@@ -1,5 +1,6 @@
 require "pathname"
 require "active_support/core_ext/module/delegation"
+require "terminal-table"
 
 module Monoz
   class ProjectCollection
@@ -32,6 +33,10 @@ module Monoz
       @items.select { |i| i.id == id }&.first
     end
 
+    def all
+      @items
+    end
+
     def order(key)
       if key.to_sym == :name
         @items = order_by_name
@@ -54,6 +59,19 @@ module Monoz
       else
         raise "Invalid filter key: #{type}"
       end
+    end
+
+    def to_table
+      rows = []
+      @items.each do |project|
+        rows << [project.name, project.type, project.gem_name, project.test_frameworks.join(", "), project.dependants.join(", ")]
+      end
+      table = Terminal::Table.new(
+        headings: ["Project", "Type", "Gem Name", "Test Framework(s)", "Dependants"],
+        rows: rows,
+        style: { padding_left: 2, padding_right: 2, border_i: "o" },
+      )
+      puts table
     end
 
     private
