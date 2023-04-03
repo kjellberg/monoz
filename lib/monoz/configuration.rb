@@ -29,7 +29,7 @@ module Monoz
     private
     def find_config_file(dir_path)
       while dir_path != "/"
-        config_file_path = File.join(dir_path, "monoz.yaml")
+        config_file_path = File.join(dir_path, "monoz.yml")
         return config_file_path if File.exist?(config_file_path)
 
         dir_path = File.dirname(dir_path)
