@@ -25,16 +25,8 @@ module Monoz
       desc "bundle", "Run bundle commands in all projects"
       subcommand "bundle", Monoz::Cli::Bundle
 
-      desc "inspect", "Inspect your Monozrepo"
-      def inspect
-        say "Project \tType \tGem Name \tDependants", :bold
-        Monoz.projects.order(:name).each do |project|
-          say "#{project.name} \t", nil, false
-          say "#{project.type} \t", project.text_color, false
-          say "#{project.is_gem? ? project.gem_name : "\t" } \t", nil, false
-          say "#{project.dependants.join(", ")}"
-        end
-      end
+      desc "inspect", "Inspect this monozrepo"
+      subcommand "inspect", Monoz::Cli::Inspect
 
       desc "version", "Get the current version of Monoz"
       def version

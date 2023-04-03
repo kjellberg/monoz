@@ -34,11 +34,25 @@ module Monoz
 
     def order(key)
       if key.to_sym == :name
-        order_by_name
+        @items = order_by_name
+        self
       elsif key.to_sym == :dependants
-        order_by_dependants
+        @items = order_by_dependants
+        self
       else
-        raise "Invalid order key #{type}"
+        raise "Invalid order key: #{type}"
+      end
+    end
+
+    def filter(key)
+      if key.to_sym == :apps
+        @items = @items.select { |i| i.type == "app" }
+        self
+      elsif key.to_sym == :gems
+        @items = @items.select { |i| i.type == "gem" }
+        self
+      else
+        raise "Invalid filter key: #{type}"
       end
     end
 

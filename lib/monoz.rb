@@ -10,8 +10,9 @@ module Monoz
   end
 
   module Cli
-    autoload "Main", "monoz/cli/main"
     autoload "Bundle", "monoz/cli/bundle"
+    autoload "Inspect", "monoz/cli/inspect"
+    autoload "Main", "monoz/cli/main"
   end
 
   autoload "Configuration", "monoz/configuration"
