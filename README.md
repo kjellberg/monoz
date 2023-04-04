@@ -78,7 +78,7 @@ Note that when you add a new dependency to a project, you'll need to run `monoz 
 
 #### Run other bundler commands
 
-You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run the RSpec tests for all projects, you can use the following command:
+You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run Rubocop tests in all projects, you can use the following command:
 
 ```console
 $ monoz bundle exec rubocop
@@ -93,7 +93,7 @@ kiqr_cloud: bundle exec rubocop ✓
 Error: The command bundle exec rubocop failed to run in one or more project directories
 ```
 
-This will execute the `bundle exec rspec` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
+This will execute the `bundle exec rubocop` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
 
 ### Running commands in projects
 
