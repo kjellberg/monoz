@@ -116,6 +116,34 @@ This will execute the `touch tmp/test.txt` command in each project directory, cr
 
 Note that if you need to run a command in a specific project, you can simply navigate to the project directory and run the command as you would in a regular Ruby project. The monoz run command is primarily useful for running commands across one ore many projects in a Monoz repository at once.
 
+### Run in foreground / interactive mode
+
+You can run commands in interactive mode using the flag `--tty`, or `-t`:
+
+```console
+$ monoz run bin/dev --filter=example_com --tty
+
+example_com: bin/dev
+23:41:04 web.1  | started with pid 96841
+23:41:04 css.1  | started with pid 96842
+23:41:05 web.1  | => Booting Puma
+23:41:05 web.1  | => Rails 7.0.4.3 application starting in development 
+23:41:05 web.1  | => Run `bin/rails server --help` for more startup options
+23:41:06 web.1  | Puma starting in single mode...
+23:41:06 web.1  | * Puma version: 5.6.5 (ruby 3.2.0-p0) ("Birdie's Version")
+23:41:06 web.1  | *  Min threads: 5
+23:41:06 web.1  | *  Max threads: 5
+23:41:06 web.1  | *  Environment: development
+23:41:06 web.1  | *          PID: 96841
+23:41:06 web.1  | * Listening on http://127.0.0.1:3000
+23:41:06 web.1  | * Listening on http://[::1]:3000
+23:41:06 web.1  | Use Ctrl-C to stop
+23:41:06 css.1  | 
+23:41:06 css.1  | Rebuilding...
+23:41:06 css.1  | 
+23:41:06 css.1  | Done in 354ms.
+```
+
 ### Filter projects
 
 The `--filter` option in Monoz allows you to select certain projects based on specific criteria. This is useful if you only want to run a command on a specific subset of projects, rather than all of them. To use the `--filter` option, you simply specify a filter expression after the option. The filter expression is a comma-separated list of keywords that match the project names or tags in your Monoz configuration.
