@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+VERSION=$1
+
+printf "module Monoz\n  VERSION = \"$VERSION\"\nend\n" > ./lib/monoz/version.rb
+bundle
+git add lib/mrsk/version.rb
+git commit -m "Bump version for $VERSION"
+git push
+git tag v$VERSION
+git push --tags
+gem build monoz.gemspec
+gem push "monoz-$VERSION.gem" --host https://rubygems.org
+rm "monoz-$VERSION.gem"
