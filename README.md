@@ -51,7 +51,7 @@ For example, a Monoz repository with both a frontend and a backend application t
 
 ### Bundle projects
 
-To manage the dependencies of your projects, you can use the monoz bundle command. This command will create a new Gemfile.lock file in each project directory based on the dependencies specified in their respective Gemfiles.
+To manage the dependencies of your projects, you can use the `monoz bundle` command. This command will run `bundle` and create a new Gemfile.lock file in each project directory based on the dependencies specified in their respective `Gemfile`.
 
 To bundle all the projects in the Monoz repository, simply run:
 
@@ -59,9 +59,7 @@ To bundle all the projects in the Monoz repository, simply run:
 $ monoz bundle
 ```
 
-This will create a `Gemfile.lock` file for each project in the repository.
-
-If you want to update the dependencies of your projects, you can use the `monoz bundle update` command. This command will update the `Gemfile.lock` file of each project based on the latest available versions of their dependencies.
+If you instead want to update the dependencies of your projects, you can use the `monoz bundle update` command. This command will update the `Gemfile.lock` file of each project based on the latest available versions of their dependencies.
 
 To update the dependencies of all projects in the Monoz repository, simply run:
 
@@ -70,6 +68,21 @@ $ monoz bundle update
 ```
 
 Note that when you add a new dependency to a project, you'll need to run `monoz bundle` to update its `Gemfile.lock` file before you can use the new dependency. Similarly, if you update the dependencies of a project's `Gemfile`, you'll need to run `monoz bundle` to update its `Gemfile.lock` file with the new versions.
+
+#### Run other bundler commands
+
+You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run the RSpec tests for all projects, you can use the following command:
+
+```console
+$ monoz bundle exec rspec
+
+[kiqr_core] bundle exec rspec
+[core_api] bundle exec rspec
+[content_api] bundle exec rspec
+[kiqr_cloud] bundle exec rspec
+```
+
+This will execute the `bundle exec rspec` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `monoz bundle install`, `monoz bundle update`, and so on, by appending the desired arguments to the monoz bundle command.
 
 ### Inspect projects
 
