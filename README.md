@@ -29,7 +29,7 @@ This will create a new Monoz repo with the following structure:
 
 ## Projects
 
-### Adding projects
+### Add a project
 
 Once you've initialized your Monoz repository, you can start adding projects to it.
 
