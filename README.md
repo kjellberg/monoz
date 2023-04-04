@@ -172,7 +172,7 @@ example_com: bin/dev
 23:41:06 css.1  | Done in 354ms.
 ```
 
-### Filter projects
+### Filtering projects
 
 The `--filter` option in Monoz allows you to select certain projects based on specific criteria. This is useful if you only want to run a command on a specific subset of projects, rather than all of them. To use the `--filter` option, you simply specify a filter expression after the option. The filter expression is a comma-separated list of keywords that match the project names or tags in your Monoz configuration.
 
