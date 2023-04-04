@@ -151,7 +151,7 @@ You can inspect the projects in your Monoz repository using the `monoz projects`
 Here's an example output of the `monoz projects` command:
 
 ```console
-$ monoz inspect
+$ monoz projects
 
 o---------------o--------o-------------o---------------------o-------------------------------------o
 |  Project      |  Type  |  Gem Name   |  Test Framework(s)  |  Dependants                         |
