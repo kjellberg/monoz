@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Monoz::ProjectCollection do
-  let(:projects) { Monoz.projects }
+  let(:projects) { Monoz.projects.dup }
 
   before { use_example_repo("ruby-on-rails") }
 
@@ -67,23 +67,44 @@ RSpec.describe Monoz::ProjectCollection do
   end
 
   describe "#filter" do
-    context "when key is :apps" do
+    context "when key is apps" do
       it "filters by apps" do
-        projects.filter(:apps)
+        projects.filter("apps")
         expect(projects.all.map(&:type)).to all(eq("app"))
       end
     end
 
-    context "when key is :gems" do
+    context "when key is gems" do
       it "filters by gems" do
-        projects.filter(:gems)
+        projects.filter("gems")
         expect(projects.all.map(&:type)).to all(eq("gem"))
       end
     end
 
+    context "when key is gems,apps" do
+      it "filters by gems" do
+        projects.filter("gems,apps")
+        expect(projects.count).to eq(2)
+      end
+    end
+
+    context "when key is gems + an id" do
+      it "filters by gems" do
+        projects.filter("gems,example-com")
+        expect(projects.count).to eq(2)
+      end
+    end
+
+    context "when key is an id" do
+      it "filters by gems" do
+        projects.filter("example-core")
+        expect(projects.first.name).to eq("example-core")
+      end
+    end
+
     context "when key is invalid" do
-      it "raises an error" do
-        expect { projects.filter(:invalid_key) }.to raise_error("Invalid filter key: invalid_key")
+      it "raises error on invalid key" do
+        expect { projects.filter("invalid-key") }.to raise_error
       end
     end
   end

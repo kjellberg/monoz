@@ -51,16 +51,31 @@ module Monoz
       end
     end
 
-    def filter(key)
-      if key.to_sym == :apps
-        @items = @items.select { |i| i.type == "app" }
-        self
-      elsif key.to_sym == :gems
-        @items = @items.select { |i| i.type == "gem" }
-        self
-      else
-        raise "Invalid filter key: #{key}"
+    def filter(filters = [])
+      if filters.is_a?(String)
+        filters = filters.split(",").map(&:strip)
       end
+      if filters.empty?
+        @items = []
+        return self
+      end
+      filtered_items = []
+      filters.each do |filter|
+        if filter == "gems"
+          filtered_items += @items.select { |i| i.type == "gem" }
+        elsif filter == "apps"
+          filtered_items += @items.select { |i| i.type == "app" }
+        else
+          project = find(filter)
+          if project
+            filtered_items << project
+          else
+            raise Monoz::Errors::StandardError.new("Invalid key: #{filter}")
+          end
+        end
+      end
+      @items = filtered_items.uniq
+      self
     end
 
     def to_table

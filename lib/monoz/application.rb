@@ -6,6 +6,14 @@ require "fileutils"
 
 module Monoz
   class Application < Thor
+    class_option :verbose, type: :boolean, aliases: ["-v"], default: false
+    class_option :filter
+
+    def initialize(*args)
+      super
+      Monoz.app = self
+    end
+
     desc "init [PATH]", "Initialize a monozrepo at the specified PATH"
     def init(path = ".")
       Monoz::Services::InitService.new(self).call(path)
@@ -29,7 +37,7 @@ module Monoz
     map "run" => "run_action"
     desc "run [COMMAND]", "Run commands in all projects"
     def run_action(*command)
-      return help("run") if command.nil? || command.first == "help"
+      return help("run") if command.empty? || command.first == "help"
 
       projects = Monoz.projects.order(:dependants)
       Monoz::Services::RunService.new(self).call(projects, *command)

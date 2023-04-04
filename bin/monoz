@@ -6,6 +6,10 @@ require "monoz"
 begin
   Monoz::Application.start(ARGV)
 rescue Monoz::Errors::ConfigurationNotFound
-  puts "This is not a valid Monoz directory."
+  puts "Error: This is not a valid Monoz directory."
   puts "Run monoz init to initialize Monoz in the current directory."
+  exit(1)
+rescue Monoz::Errors::StandardError => e
+  puts "Error: #{e.message}"
+  exit(1)
 end

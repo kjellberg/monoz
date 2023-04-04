@@ -7,6 +7,7 @@ require "shellwords"
 
 module Monoz
   module Errors
+    class StandardError < StandardError; end
     class ConfigurationNotFound < StandardError; end
   end
 
@@ -41,12 +42,28 @@ module Monoz
   autoload "ProjectCollection", "monoz/project_collection"
 
   class << self
+    def app
+      @app
+    end
+
+    def app=(value)
+      @app = value
+    end
+
     def config
       @config ||= Monoz::Configuration.new(pwd)
     end
 
+    def options
+      @app&.options
+    end
+
     def projects
-      Monoz::ProjectCollection.new(config.root_path)
+      filter = Monoz.options&.dig("filter")
+      projects = Monoz::ProjectCollection.new(config.root_path)
+      projects = projects.filter(filter) unless filter.nil?
+
+      projects
     end
 
     def pwd
