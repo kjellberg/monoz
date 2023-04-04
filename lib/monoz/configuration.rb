@@ -22,7 +22,7 @@ module Monoz
 
     class << self
       def default_config
-        { folders: ["apps", "gems"] }
+        { "folders" => ["apps", "gems"] }
       end
     end
 

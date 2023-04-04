@@ -52,12 +52,12 @@ RSpec.describe Monoz::ProjectCollection do
       end
     end
 
-    # context "when key is :dependants" do
-    #   it "orders projects by number of dependants" do
-    #     projects.order(:dependants)
-    #     expect(projects.all.map(&:name)).to eq(["example-com", "example-core"])
-    #   end
-    # end
+    context "when key is :dependants" do
+      it "orders projects by number of dependants" do
+        projects.order(:dependants)
+        expect(projects.all.map(&:name)).to eq(["example-com", "example-core"])
+      end
+    end
 
     context "when key is invalid" do
       it "raises an error" do
