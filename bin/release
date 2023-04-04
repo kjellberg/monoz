@@ -4,7 +4,7 @@ VERSION=$1
 
 printf "module Monoz\n  VERSION = \"$VERSION\"\nend\n" > ./lib/monoz/version.rb
 bundle
-git add lib/mrsk/version.rb
+git add lib/monoz/version.rb
 git commit -m "Bump version for $VERSION"
 git push
 git tag v$VERSION
