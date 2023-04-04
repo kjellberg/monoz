@@ -72,6 +72,13 @@ To update the dependencies of all projects in the Monoz repository, simply run:
 
 ```console
 $ monoz bundle update
+
+kiqr_core: bundle update ✓
+content_api: bundle update ✓
+core_api: bundle update ✓
+kiqr_cloud: bundle update ✓
+
+The command ran successfully in all projects without any errors.
 ```
 
 Note that when you add a new dependency to a project, you'll need to run `monoz bundle` to update its `Gemfile.lock` file before you can use the new dependency. Similarly, if you update the dependencies of a project's `Gemfile`, you'll need to run `monoz bundle` to update its `Gemfile.lock` file with the new versions.
