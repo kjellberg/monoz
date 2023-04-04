@@ -95,6 +95,27 @@ Error: The command bundle exec rubocop failed to run in one or more project dire
 
 This will execute the `bundle exec rspec` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
 
+### Running commands in projects
+
+You can run any command in all projects of your Monoz repository using the `monoz run` command. Simply provide the command you want to run as an argument, and Monoz will execute it in each project directory.
+
+For example, to create an empty file named test.txt in the tmp/ directory of all projects, you can use the following command:
+
+```console
+$ monoz run touch tmp/test.txt
+
+kiqr_core: touch tmp/test.txt ✓
+content_api: touch tmp/test.txt ✓
+core_api: touch tmp/test.txt ✓
+kiqr_cloud: touch tmp/test.txt ✓
+
+The command ran successfully in all projects without any errors.
+```
+
+This will execute the `touch tmp/test.txt` command in each project directory, creating the test.txt file in the tmp/ directory. If a command fails to run in a project directory, Monoz will display an error message with the output of the command.
+
+Note that if you need to run a command in a specific project, you can simply navigate to the project directory and run the command as you would in a regular Ruby project. The monoz run command is primarily useful for running commands across one ore many projects in a Monoz repository at once.
+
 ### Inspect projects
 
 You can inspect the projects in your Monoz repository using the `monoz inspect` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
