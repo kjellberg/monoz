@@ -82,7 +82,7 @@ $ monoz bundle exec rspec
 [kiqr_cloud] bundle exec rspec
 ```
 
-This will execute the `bundle exec rspec` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `monoz bundle install`, `monoz bundle update`, and so on, by appending the desired arguments to the monoz bundle command.
+This will execute the `bundle exec rspec` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
 
 ### Inspect projects
 
