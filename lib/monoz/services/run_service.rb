@@ -47,6 +47,7 @@ module Monoz
 
           if response.success?
             say "\u2713", [:green, :bold] # Checkmark symbol in green and bold
+            say response.output if Monoz.options.dig("verbose") == true
           else
             say "\u2717", [:red, :bold] # Cross symbol in red
             say response.output
