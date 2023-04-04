@@ -1,13 +1,6 @@
 # frozen_string_literal: true
 
-require "simplecov"
-SimpleCov.start
-
-require "monoz"
-
-def set_project(example_name)
-  Monoz.pwd = File.expand_path("../examples/#{example_name}", __dir__)
-end
+require "example/core"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

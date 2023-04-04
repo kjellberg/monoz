@@ -9,7 +9,7 @@ module Monoz
 
     def initialize(file_path)
       @items = []
-      project_folders = Monoz.config.dig(:folders)
+      project_folders = Monoz.config.dig("folders")
 
       search_paths = project_folders.map { |folder| File.join(file_path, folder) }
       
@@ -25,12 +25,12 @@ module Monoz
       end
     end
 
-    def exist?(id)
-      !!find(id)
+    def exist?(name)
+      !!find(name)
     end
 
-    def find(id)
-      @items.select { |i| i.id == id }&.first
+    def find(name)
+      @items.select { |i| i.name == name }&.first
     end
 
     def all
@@ -45,7 +45,7 @@ module Monoz
         @items = order_by_dependants
         self
       else
-        raise "Invalid order key: #{type}"
+        raise "Invalid order key: #{key}"
       end
     end
 
@@ -57,7 +57,7 @@ module Monoz
         @items = @items.select { |i| i.type == "gem" }
         self
       else
-        raise "Invalid filter key: #{type}"
+        raise "Invalid filter key: #{key}"
       end
     end
 
