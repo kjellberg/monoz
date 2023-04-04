@@ -102,7 +102,7 @@ Error: The command bundle exec rubocop failed to run in one or more project dire
 
 This will execute the `bundle exec rubocop` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
 
-### Projects overview
+### List projects
 
 You can inspect the projects in your Monoz repository using the `monoz projects` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
 
