@@ -70,8 +70,8 @@ module Monoz
       end
       table = Terminal::Table.new(
         headings: ["Project", "Type", "Gem Name", "Test Framework(s)", "Dependants"],
-        rows:,
-        style: { padding_left: 2, padding_right: 2, border_i: "o" },
+        rows: rows,
+        style: { padding_left: 2, padding_right: 2, border_i: "o" }
       )
       puts table
     end
