@@ -74,11 +74,10 @@ module Monoz
         def run_commands_in_project(project, *command)
           raise ArgumentError.new("Invalid command") if command.empty?
 
-          output = nil
-          inside(project.root_path) do
-            output = run(command.join(" "))
+          FileUtils.chdir(project.root_path) do
+            output, status = Open3.capture2e(*command.map { |arg| Shellwords.escape(arg) })
+            return Monoz::Responses::CaptureRunResponse.new(output, status.exitstatus)
           end
-          return Monoz::Responses::CaptureRunResponse.new(output, $?.exitstatus)
         end
     end
   end
