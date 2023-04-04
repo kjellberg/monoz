@@ -116,11 +116,39 @@ This will execute the `touch tmp/test.txt` command in each project directory, cr
 
 Note that if you need to run a command in a specific project, you can simply navigate to the project directory and run the command as you would in a regular Ruby project. The monoz run command is primarily useful for running commands across one ore many projects in a Monoz repository at once.
 
-### Inspect projects
+### Filter projects
 
-You can inspect the projects in your Monoz repository using the `monoz inspect` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
+The `--filter` option in Monoz allows you to select certain projects based on specific criteria. This is useful if you only want to run a command on a specific subset of projects, rather than all of them. To use the `--filter` option, you simply specify a filter expression after the option. The filter expression is a comma-separated list of keywords that match the project names or tags in your Monoz configuration.
 
-Here's an example output of the `monoz inspect` command:
+For example, suppose you have a Monoz configuration with several projects, some of which are tagged as **apps** and some of which are tagged as **gems**. You can use the "--filter" option to select only the **apps** projects by running the following command:
+
+```console
+$ monoz bundle --filter=apps
+```
+
+Similarly, if you only want to list only gem projects, you can use the following command:
+
+```console
+$ monoz projects --filter=gems
+```
+
+You can also use multiple keywords in the filter expression to select projects that match any of the keywords. For example, to run the `mrsk deploy` command on all **apps** and **apis** projects, you can use the following command:
+
+```console
+$ monoz run mrsk deploy --filter="apps,apis"
+```
+
+Finally, you can also specify individual project names in the filter expression. For example, to run the `rubocop` command on only the **gem1** and **gem2** projects, you can use the following command:
+
+```console
+$ monoz run rubocop --filter="gem1,gem2"
+```
+
+### List projects
+
+You can inspect the projects in your Monoz repository using the `monoz projects` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
+
+Here's an example output of the `monoz projects` command:
 
 ```console
 $ monoz inspect
