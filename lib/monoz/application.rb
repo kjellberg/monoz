@@ -6,7 +6,7 @@ require "fileutils"
 
 module Monoz
   class Application < Thor
-    class_option :verbose, type: :boolean, aliases: ["-v"], default: false
+    class_option :tty, type: :boolean, aliases: ["--verbose", "-t"], default: false
     class_option :filter
 
     def initialize(*args)

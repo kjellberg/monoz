@@ -41,15 +41,14 @@ module Monoz
 
         @projects.each do |project|
           say "#{project.name}: ", [:bold, :blue]
-          say "#{command.join(" ")} "
+          Monoz.tty? ? say(command.join(" ")) : say("#{command.join(" ")} ")
 
           response = run_commands_in_project(project, *command)
 
           if response.success?
-            say "\u2713", [:green, :bold] # Checkmark symbol in green and bold
-            say response.output if Monoz.options.dig("verbose") == true
+            say "\u2713", [:green, :bold] unless Monoz.tty? # Checkmark symbol in green and bold
           else
-            say "\u2717", [:red, :bold] # Cross symbol in red
+            say "\u2717", [:red, :bold] unless Monoz.tty? # Cross symbol in red
             say response.output
             say ""
             @errors << {
@@ -75,10 +74,28 @@ module Monoz
         def run_commands_in_project(project, *command)
           raise ArgumentError.new("Invalid command") if command.empty?
 
+          output = ""
+          exit_status = nil
+
           FileUtils.chdir(project.root_path) do
-            output, status = Open3.capture2e(*command.map { |arg| Shellwords.escape(arg) })
-            return Monoz::Responses::CaptureRunResponse.new(output, status.exitstatus)
+            if Monoz.tty?
+              Open3.popen2e(*command.map { |arg| Shellwords.escape(arg) }) do |stdin, stdout_err, wait_thr|
+                while line = stdout_err.gets
+                  output += line
+                  print line
+                end
+
+                exit_status = wait_thr.value.exitstatus
+              end
+
+              say ""
+            else
+              output, status = Open3.capture2e(*command.map { |arg| Shellwords.escape(arg) })
+              exit_status = status.exitstatus
+            end
           end
+
+          return Monoz::Responses::CaptureRunResponse.new(output, exit_status)
         end
     end
   end

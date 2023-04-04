@@ -58,6 +58,10 @@ module Monoz
       @app&.options
     end
 
+    def tty?
+      Monoz.options.dig("tty") == true
+    end
+
     def projects
       filter = Monoz.options&.dig("filter")
       projects = Monoz::ProjectCollection.new(config.root_path)
