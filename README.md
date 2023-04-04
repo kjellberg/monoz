@@ -73,9 +73,9 @@ Note that when you add a new dependency to a project, you'll need to run `monoz 
 
 ### Inspect projects
 
-You can inspect the projects in your Monoz repository using the monoz inspect command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
+You can inspect the projects in your Monoz repository using the `monoz inspect` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
 
-Here's an example output of the monoz inspect command:
+Here's an example output of the `monoz inspect` command:
 
 ```console
 $ monoz inspect
