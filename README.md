@@ -7,7 +7,7 @@ Monoz is a command-line tool that helps you manage your **ruby** monorepo. It pr
 You can install Monoz by running the following command:
 
 ```console
-gem install monoz
+$ gem install monoz
 ```
 
 ## Getting started
@@ -15,7 +15,7 @@ gem install monoz
 To initialize a Monoz repository in the current directory, simply run:
 
 ```console
-monoz init
+$ monoz init
 ```
 *For a specific directory, provide the path as an argument.*
 
@@ -56,7 +56,7 @@ To manage the dependencies of your projects, you can use the monoz bundle comman
 To bundle all the projects in the Monoz repository, simply run:
 
 ```console
-monoz bundle
+$ monoz bundle
 ```
 
 This will create a `Gemfile.lock` file for each project in the repository.
@@ -66,11 +66,29 @@ If you want to update the dependencies of your projects, you can use the `monoz 
 To update the dependencies of all projects in the Monoz repository, simply run:
 
 ```console
-monoz bundle update
+$ monoz bundle update
 ```
 
 Note that when you add a new dependency to a project, you'll need to run `monoz bundle` to update its `Gemfile.lock` file before you can use the new dependency. Similarly, if you update the dependencies of a project's `Gemfile`, you'll need to run `monoz bundle` to update its `Gemfile.lock` file with the new versions.
 
+### Inspect projects
+
+You can inspect the projects in your Monoz repository using the monoz inspect command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
+
+Here's an example output of the monoz inspect command:
+
+```console
+$ monoz inspect
+
+o---------------o--------o-------------o---------------------o-------------------------------------o
+|  Project      |  Type  |  Gem Name   |  Test Framework(s)  |  Dependants                         |
+o---------------o--------o-------------o---------------------o-------------------------------------o
+|  content_api  |  app   |             |  rspec              |                                     |
+|  core_api     |  app   |             |  rspec              |                                     |
+|  kiqr_cloud   |  app   |             |  rspec              |                                     |
+|  kiqr_core    |  gem   |  kiqr_core  |  rspec              |  content_api, core_api, kiqr_cloud  |
+o---------------o--------o-------------o---------------------o-------------------------------------o
+```
 
 ## Contributing
 We welcome contributions from everyone! If you're interested in contributing to Monoz, please check out our contributing guidelines for more information.
