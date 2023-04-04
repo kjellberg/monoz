@@ -2,15 +2,13 @@
 
 Monoz is a command-line tool that helps you manage your **ruby** monorepo. It provides an easy way to manage multiple related **ruby** projects and their dependencies in a single repository. Monoz helps you keep track of your projects and their interdependencies, making it easier to maintain and scale your codebase. 
 
-## Installation
+## Getting started
 
 You can install Monoz by running the following command:
 
 ```console
 $ gem install monoz
 ```
-
-## Getting started
 
 To initialize a Monoz repository in the current directory, simply run:
 
@@ -28,6 +26,8 @@ This will create a new Monoz repo with the following structure:
 ├── gems
 └── monoz.yml
 ```
+
+## Projects
 
 ### Adding projects
 
@@ -101,6 +101,27 @@ Error: The command bundle exec rubocop failed to run in one or more project dire
 ```
 
 This will execute the `bundle exec rubocop` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
+
+### Projects overview
+
+You can inspect the projects in your Monoz repository using the `monoz projects` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
+
+Here's an example output of the `monoz projects` command:
+
+```console
+$ monoz projects
+
+o---------------o--------o-------------o---------------------o-------------------------------------o
+|  Project      |  Type  |  Gem Name   |  Test Framework(s)  |  Dependants                         |
+o---------------o--------o-------------o---------------------o-------------------------------------o
+|  content_api  |  app   |             |  rspec              |                                     |
+|  core_api     |  app   |             |  rspec              |                                     |
+|  kiqr_cloud   |  app   |             |  rspec              |                                     |
+|  kiqr_core    |  gem   |  kiqr_core  |  rspec              |  content_api, core_api, kiqr_cloud  |
+o---------------o--------o-------------o---------------------o-------------------------------------o
+```
+
+## Runing commands
 
 ### Running commands in projects
 
@@ -189,25 +210,6 @@ Finally, you can also specify individual project names in the filter expression.
 
 ```console
 $ monoz run rubocop --filter="gem1,gem2"
-```
-
-### List projects
-
-You can inspect the projects in your Monoz repository using the `monoz projects` command. This command will display a table that shows the projects in the repository, their type (app or gem), the gem name (if it's a gem), the test framework(s) used, and the projects that depend on them.
-
-Here's an example output of the `monoz projects` command:
-
-```console
-$ monoz projects
-
-o---------------o--------o-------------o---------------------o-------------------------------------o
-|  Project      |  Type  |  Gem Name   |  Test Framework(s)  |  Dependants                         |
-o---------------o--------o-------------o---------------------o-------------------------------------o
-|  content_api  |  app   |             |  rspec              |                                     |
-|  core_api     |  app   |             |  rspec              |                                     |
-|  kiqr_cloud   |  app   |             |  rspec              |                                     |
-|  kiqr_core    |  gem   |  kiqr_core  |  rspec              |  content_api, core_api, kiqr_cloud  |
-o---------------o--------o-------------o---------------------o-------------------------------------o
 ```
 
 ## Contributing
