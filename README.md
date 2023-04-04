@@ -159,12 +159,24 @@ For example, suppose you have a Monoz configuration with several projects, some 
 
 ```console
 $ monoz bundle --filter=apps
+
+content_api: bundle ✓
+core_api: bundle ✓
+kiqr_cloud: bundle ✓
+
+The command ran successfully in all project directories without any errors.
 ```
 
 Similarly, if you only want to list only gem projects, you can use the following command:
 
 ```console
 $ monoz projects --filter=gems
+
+o-------------o--------o-------------o----------------------o-------------------------------------o
+|  Project    |  Type  |  Gem name   |  Found Framework(s)  |  Dependants                         |
+o-------------o--------o-------------o----------------------o-------------------------------------o
+|  kiqr_core  |  gem   |  kiqr_core  |  rspec               |  content_api, core_api, kiqr_cloud  |
+o-------------o--------o-------------o----------------------o-------------------------------------o
 ```
 
 You can also use multiple keywords in the filter expression to select projects that match any of the keywords. For example, to run the `mrsk deploy` command on all **apps** and **apis** projects, you can use the following command:
