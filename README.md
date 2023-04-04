@@ -57,6 +57,13 @@ To bundle all the projects in the Monoz repository, simply run:
 
 ```console
 $ monoz bundle
+
+kiqr_core: bundle ✓
+content_api: bundle ✓
+core_api: bundle ✓
+kiqr_cloud: bundle ✓
+
+The command ran successfully in all projects without any errors.
 ```
 
 If you instead want to update the dependencies of your projects, you can use the `monoz bundle update` command. This command will update the `Gemfile.lock` file of each project based on the latest available versions of their dependencies.
@@ -74,12 +81,16 @@ Note that when you add a new dependency to a project, you'll need to run `monoz 
 You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run the RSpec tests for all projects, you can use the following command:
 
 ```console
-$ monoz bundle exec rspec
+$ monoz bundle exec rubocop
 
-[kiqr_core] bundle exec rspec
-[core_api] bundle exec rspec
-[content_api] bundle exec rspec
-[kiqr_cloud] bundle exec rspec
+kiqr_core: bundle exec rubocop ✓
+content_api: bundle exec rubocop ✗
+Configuration file not found: /some/path/.rubocop.yml
+
+core_api: bundle exec rubocop ✓
+kiqr_cloud: bundle exec rubocop ✓
+
+Error: The command bundle exec rubocop failed to run in one or more project directories
 ```
 
 This will execute the `bundle exec rspec` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
