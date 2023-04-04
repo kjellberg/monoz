@@ -2,7 +2,7 @@
 
 module Monoz
   class Project
-    attr_reader :name, :root_path, :gemspec, :type, :dependencies, :gem_name, :dependants
+    attr_reader :name, :root_path, :gemspec, :type, :dependencies, :gem_name, :dependants, :frameworks
 
     def initialize(root_path)
       @root_path = root_path
@@ -25,23 +25,23 @@ module Monoz
       is_gem? ? :green : :blue
     end
 
-    def test_frameworks
-      frameworks = []
-
-      rspec_files = Dir.glob(File.join(@root_path, "**/*_spec.rb"))
-      if !rspec_files.empty?
-        frameworks << "rspec"
-      end
-
-      minitest_files = Dir.glob(File.join(@root_path, "test/**/*_test.rb"))
-      if !minitest_files.empty?
-        frameworks << "minitest"
-      end
-
-      frameworks
-    end
-
     private
+      def find_frameworks
+        frameworks = []
+
+        rspec_files = Dir.glob(File.join(@root_path, "**/*_spec.rb"))
+        if !rspec_files.empty?
+          frameworks << "rspec"
+        end
+
+        minitest_files = Dir.glob(File.join(@root_path, "test/**/*_test.rb"))
+        if !minitest_files.empty?
+          frameworks << "minitest"
+        end
+
+        frameworks
+      end
+
       def parse_project_files
         @gemspec = parse_gemspec
       end
@@ -55,8 +55,7 @@ module Monoz
 
         spec = Gem::Specification.load(gemspec_file)
         {
-          name: spec.name,
-          version: spec.version.to_s
+          name: spec.name
         }
       end
 
@@ -64,7 +63,7 @@ module Monoz
         @name = File.basename(root_path)
         @gem_name = @gemspec.dig(:name) if is_gem?
         @type = is_gem? ? "gem" : "app"
-        @test_frameworks =
+        @frameworks = find_frameworks
         @dependants = []
       end
 

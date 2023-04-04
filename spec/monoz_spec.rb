@@ -16,12 +16,12 @@ RSpec.describe Monoz do
 
   describe "#config" do
     it "returns a Configuration instance" do
-      set_project("ruby-on-rails")
+      use_example_repo("ruby-on-rails")
       expect(Monoz.config).to be_an_instance_of(Monoz::Configuration)
     end
 
     it "returns the same instance each time" do
-      set_project("ruby-on-rails")
+      use_example_repo("ruby-on-rails")
       expect(Monoz.config).to be(Monoz.config)
     end
   end

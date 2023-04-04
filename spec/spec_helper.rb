@@ -5,7 +5,7 @@ SimpleCov.start
 
 require "monoz"
 
-def set_project(example_name)
+def use_example_repo(example_name)
   Monoz.pwd = File.expand_path("../examples/#{example_name}", __dir__)
 end
 

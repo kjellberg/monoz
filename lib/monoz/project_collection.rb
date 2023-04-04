@@ -66,10 +66,10 @@ module Monoz
     def to_table
       rows = []
       @items.each do |project|
-        rows << [project.name, project.type, project.gem_name, project.test_frameworks.join(", "), project.dependants.join(", ")]
+        rows << [project.name, project.type, project.gem_name, project.frameworks.join(", "), project.dependants.join(", ")]
       end
       table = Terminal::Table.new(
-        headings: ["Project", "Type", "Gem Name", "Test Framework(s)", "Dependants"],
+        headings: ["Project", "Type", "Gem name", "Found Framework(s)", "Dependants"],
         rows: rows,
         style: { padding_left: 2, padding_right: 2, border_i: "o" }
       )

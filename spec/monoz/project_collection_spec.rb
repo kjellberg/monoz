@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Monoz::ProjectCollection do
   let(:projects) { Monoz.projects }
 
-  before { set_project("ruby-on-rails") }
+  before { use_example_repo("ruby-on-rails") }
 
   describe "#exist?" do
     context "when project exists" do
