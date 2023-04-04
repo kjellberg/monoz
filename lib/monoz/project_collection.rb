@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "pathname"
 require "active_support/core_ext/module/delegation"
 require "terminal-table"
@@ -12,13 +14,13 @@ module Monoz
       project_folders = Monoz.config.dig("folders") || ["apps", "gems"]
 
       search_paths = project_folders.map { |folder| File.join(file_path, folder) }
-      
+
       search_paths.each do |search_path|
         Dir.glob(File.join(search_path, "*/Gemfile")).each do |gemfile_path|
           project_path = File.dirname(gemfile_path)
           project = Project.new(project_path)
           if project.valid?
-            @items << project 
+            @items << project
             refresh_dependants(project)
           end
         end
@@ -68,7 +70,7 @@ module Monoz
       end
       table = Terminal::Table.new(
         headings: ["Project", "Type", "Gem Name", "Test Framework(s)", "Dependants"],
-        rows: rows,
+        rows:,
         style: { padding_left: 2, padding_right: 2, border_i: "o" },
       )
       puts table
@@ -116,6 +118,5 @@ module Monoz
 
         sorted_items
       end
-
   end
 end

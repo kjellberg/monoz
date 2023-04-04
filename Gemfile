@@ -7,5 +7,8 @@ gemspec
 
 gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
-gem "rubocop", "~> 1.21"
+gem "rubocop"
+gem "rubocop-performance"
+gem "rubocop-packaging"
+gem "rubocop-rspec"
 gem "simplecov", require: false, group: :test

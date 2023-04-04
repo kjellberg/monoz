@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "yaml"
 require "active_support/core_ext/module/delegation"
 
@@ -27,17 +29,17 @@ module Monoz
     end
 
     private
-    def find_config_file(dir_path)
-      while dir_path != "/"
-        config_file_path = File.join(dir_path, "monoz.yml")
-        return config_file_path if File.exist?(config_file_path)
+      def find_config_file(dir_path)
+        while dir_path != "/"
+          config_file_path = File.join(dir_path, "monoz.yml")
+          return config_file_path if File.exist?(config_file_path)
 
-        dir_path = File.dirname(dir_path)
+          dir_path = File.dirname(dir_path)
+        end
       end
-    end
 
-    def load_config(config_file_path)
-      YAML.load_file(config_file_path)
-    end
+      def load_config(config_file_path)
+        YAML.load_file(config_file_path)
+      end
   end
 end
