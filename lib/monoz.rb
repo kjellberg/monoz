@@ -3,10 +3,31 @@
 require_relative "monoz/version"
 
 require "pathname"
+require "shellwords"
+require "open3"
 
 module Monoz
   module Errors
     class ConfigurationNotFound < StandardError; end
+  end
+
+  module Responses
+    class CaptureRunResponse
+      attr_reader :output, :exit_code
+
+      def initialize(output, exit_code)
+        @output = output
+        @exit_code = exit_code
+      end
+
+      def success?
+        exit_code == 0
+      end
+
+      def error?
+        exit_code == 1
+      end
+    end
   end
 
   module Cli
@@ -17,9 +38,8 @@ module Monoz
 
   module Services
     autoload "BaseService", "monoz/services/base_service"
-    autoload "BundleService", "monoz/services/bundle_service"
     autoload "InitService", "monoz/services/init_service"
-    autoload "RunActionService", "monoz/services/run_action_service"
+    autoload "RunService", "monoz/services/run_service"
   end
 
   autoload "Configuration", "monoz/configuration"
