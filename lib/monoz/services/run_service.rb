@@ -47,7 +47,7 @@ module Monoz
           if response.success?
             say "\u2713", [:green, :bold] # Checkmark symbol in green and bold
           else
-            say "\u2717", :red # Cross symbol in red
+            say "\u2717", [:red, :bold] # Cross symbol in red
             say response.output
             say ""
             @errors << {
@@ -59,7 +59,12 @@ module Monoz
           end
         end
 
-        self
+        if errors?
+          say "Error: The command ", :red
+          say "#{command.join(" ")} ", [:red, :bold]
+          say "failed to run in one or more project directories", [:red]
+          exit(1)
+        end
       end
 
       private

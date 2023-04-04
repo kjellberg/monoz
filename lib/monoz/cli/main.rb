@@ -12,10 +12,15 @@ module Monoz
         Monoz::Services::InitService.new(self).call(path)
       end
 
-      # desc "bundle [COMMAND]", "Run bundle commands in all projects"
-      # def bundle(*command)
-      #   Monoz::Services::BundleService.new(self).call(*command)
-      # end
+      desc "bundle [COMMAND]", "Run bundle commands in all projects"
+      def bundle(*command)
+        return help("bundle") if command.nil? || command.first == "help"
+
+        projects = Monoz.projects.order(:dependants)
+        Monoz::Services::RunService.new(self).call(projects, "bundle", *command)
+
+        say "The command ran successfully in all projects without any errors.", [:green]
+      end
 
       desc "inspect", "Inspect this monozrepo"
       subcommand "inspect", Monoz::Cli::Inspect
@@ -23,20 +28,12 @@ module Monoz
       map "run" => "run_action"
       desc "run [COMMAND]", "Run commands in all projects"
       def run_action(*command)
-        # return help("run") if command.nil? || keys == "help"
+        return help("run") if command.nil? || command.first == "help"
 
         projects = Monoz.projects.order(:dependants)
-        response = Monoz::Services::RunService.new(self).call(projects, *command)
+        Monoz::Services::RunService.new(self).call(projects, *command)
 
-        say ""
-        say "The command ran successfully in all projects without any errors.", [:green] if response.success?
-
-        if response.errors?
-          say "Error: The command ", :red
-          say "#{command.join(" ")} ", [:red, :bold]
-          say "failed to run in one or more projects", [:red]
-          exit(1)
-        end
+        say "The command ran successfully in all projects without any errors.", [:green]
       end
 
       desc "version", "Get the current version of Monoz"
