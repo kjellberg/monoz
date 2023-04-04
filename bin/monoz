@@ -4,7 +4,7 @@
 require "monoz"
 
 begin
-  Monoz::Cli::Main.start(ARGV)
+  Monoz::Application.start(ARGV)
 rescue Monoz::Errors::ConfigurationNotFound
   puts "This is not a valid Monoz directory."
   puts "Run monoz init to initialize Monoz in the current directory."

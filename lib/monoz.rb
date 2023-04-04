@@ -4,7 +4,6 @@ require_relative "monoz/version"
 
 require "pathname"
 require "shellwords"
-require "open3"
 
 module Monoz
   module Errors
@@ -30,18 +29,13 @@ module Monoz
     end
   end
 
-  module Cli
-    autoload "Inspect", "monoz/cli/inspect"
-    autoload "Main", "monoz/cli/main"
-    autoload "Run", "monoz/cli/run"
-  end
-
   module Services
     autoload "BaseService", "monoz/services/base_service"
     autoload "InitService", "monoz/services/init_service"
     autoload "RunService", "monoz/services/run_service"
   end
 
+  autoload "Application", "monoz/application"
   autoload "Configuration", "monoz/configuration"
   autoload "Project", "monoz/project"
   autoload "ProjectCollection", "monoz/project_collection"

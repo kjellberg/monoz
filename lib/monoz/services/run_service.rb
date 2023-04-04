@@ -2,6 +2,7 @@
 
 require "yaml"
 require "fileutils"
+require "open3"
 
 module Monoz
   module Services
@@ -59,6 +60,8 @@ module Monoz
           end
         end
 
+        say ""
+
         if errors?
           say "Error: The command ", :red
           say "#{command.join(" ")} ", [:red, :bold]
@@ -71,10 +74,11 @@ module Monoz
         def run_commands_in_project(project, *command)
           raise ArgumentError.new("Invalid command") if command.empty?
 
-          FileUtils.chdir(project.root_path) do
-            output, status = Open3.capture2e(*command.map { |arg| Shellwords.escape(arg) })
-            return Monoz::Responses::CaptureRunResponse.new(output, status.exitstatus)
+          output = nil
+          inside(project.root_path) do
+            output = run(command.join(" "))
           end
+          return Monoz::Responses::CaptureRunResponse.new(output, $?.exitstatus)
         end
     end
   end
