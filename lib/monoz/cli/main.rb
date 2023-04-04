@@ -12,8 +12,10 @@ module Monoz
         Monoz::Services::InitService.new(self).call(path)
       end
 
-      desc "bundle", "Run bundle commands in all projects"
-      subcommand "bundle", Monoz::Cli::Bundle
+      desc "bundle [COMMAND]", "Run bundle commands in all projects"
+      def bundle(*command)
+        Monoz::Services::BundleService.new(self).call(*command)
+      end
 
       desc "inspect", "Inspect this monozrepo"
       subcommand "inspect", Monoz::Cli::Inspect

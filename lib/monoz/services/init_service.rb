@@ -11,7 +11,7 @@ module Monoz
         project_dir = File.dirname(config_file_path)
 
         if File.exist?(config_file_path)
-          @thor.say "Error: monoz.yaml already exists in #{config_file_path}", :red
+          say "Error: monoz.yaml already exists in #{config_file_path}", :red
           return
         end
 
@@ -26,7 +26,7 @@ module Monoz
           system "git", "init"
         end
 
-        @thor.say "Successfully initialized Monoz in #{project_dir}", :green
+        say "Successfully initialized Monoz in #{project_dir}", :green
       end
     end
   end

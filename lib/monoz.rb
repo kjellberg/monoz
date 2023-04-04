@@ -10,7 +10,6 @@ module Monoz
   end
 
   module Cli
-    autoload "Bundle", "monoz/cli/bundle"
     autoload "Inspect", "monoz/cli/inspect"
     autoload "Main", "monoz/cli/main"
     autoload "Run", "monoz/cli/run"
@@ -18,6 +17,7 @@ module Monoz
 
   module Services
     autoload "BaseService", "monoz/services/base_service"
+    autoload "BundleService", "monoz/services/bundle_service"
     autoload "InitService", "monoz/services/init_service"
     autoload "RunActionService", "monoz/services/run_action_service"
   end
