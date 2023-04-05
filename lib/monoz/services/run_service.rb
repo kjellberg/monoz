@@ -5,6 +5,25 @@ require "fileutils"
 require "open3"
 
 module Monoz
+  module Responses
+    class RunServiceResponse
+      attr_reader :output, :exit_code
+
+      def initialize(output, exit_code)
+        @output = output
+        @exit_code = exit_code
+      end
+
+      def success?
+        exit_code == 0
+      end
+
+      def error?
+        exit_code == 1
+      end
+    end
+  end
+
   module Services
     class RunService < Monoz::Services::BaseService
       attr_reader :errors, :warnings
@@ -40,9 +59,6 @@ module Monoz
         end
 
         @projects.each do |project|
-          # say "#{project.name}: ", [:bold, :blue]
-          # Monoz.tty? ? say(command.join(" ")) : say("#{command.join(" ")} ")
-
           if Monoz.tty?
             say "[#{project.name}] ", [:blue, :bold], nil
             say command.join(" ")
@@ -102,7 +118,9 @@ module Monoz
             end
           end
 
-          return Monoz::Responses::CaptureRunResponse.new(output, exit_status)
+          return Monoz::Responses::RunServiceResponse.new(output, exit_status)
+        rescue Errno::ENOENT => e
+          return Monoz::Responses::RunServiceResponse.new(e.message, 1)
         end
     end
   end

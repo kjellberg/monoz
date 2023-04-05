@@ -11,25 +11,6 @@ module Monoz
     class ConfigurationNotFound < StandardError; end
   end
 
-  module Responses
-    class CaptureRunResponse
-      attr_reader :output, :exit_code
-
-      def initialize(output, exit_code)
-        @output = output
-        @exit_code = exit_code
-      end
-
-      def success?
-        exit_code == 0
-      end
-
-      def error?
-        exit_code == 1
-      end
-    end
-  end
-
   module Services
     autoload "BaseService", "monoz/services/base_service"
     autoload "InitService", "monoz/services/init_service"
