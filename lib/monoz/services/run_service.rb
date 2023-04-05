@@ -29,10 +29,10 @@ module Monoz
       attr_reader :errors, :warnings
 
       def initialize(thor_instance)
+        super(thor_instance)
         @projects = nil
         @errors = []
         @warnings = []
-        super(thor_instance)
       end
 
       def success?
@@ -48,7 +48,7 @@ module Monoz
       end
 
       def call(projects, *command)
-        raise ArgumentError.new("Missing command") if command.empty?
+        raise ArgumentError, "Missing command" if command.empty?
 
         if projects.is_a?(Monoz::ProjectCollection)
           @projects = projects.all
@@ -69,9 +69,9 @@ module Monoz
           response = run_commands_in_project(project, *command)
 
           if response.success?
-            spinner.success! unless Monoz.tty?
+            spinner&.success! unless Monoz.tty?
           else
-            spinner.error! unless Monoz.tty?
+            spinner&.error! unless Monoz.tty?
             say response.output
             say "" # line break
             @errors << {
@@ -95,7 +95,7 @@ module Monoz
 
       private
         def run_commands_in_project(project, *command)
-          raise ArgumentError.new("Invalid command") if command.empty?
+          raise ArgumentError, "Invalid command" if command.empty?
 
           output = ""
           exit_status = nil
@@ -118,9 +118,9 @@ module Monoz
             end
           end
 
-          return Monoz::Responses::RunServiceResponse.new(output, exit_status)
+          Monoz::Responses::RunServiceResponse.new(output, exit_status)
         rescue Errno::ENOENT => e
-          return Monoz::Responses::RunServiceResponse.new(e.message, 1)
+          Monoz::Responses::RunServiceResponse.new(e.message, 1)
         end
     end
   end
