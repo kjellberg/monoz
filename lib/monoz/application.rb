@@ -29,6 +29,14 @@ module Monoz
       say "The command ran successfully in all project directories without any errors.", [:green]
     end
 
+    desc "link", "Link gems to local directories in development."
+    def link
+      Monoz.projects.filter("gems").each do |gem|
+        command = "monoz bundle config local.#{gem.gem_name} #{gem.root_path}"
+        Monoz::Services::RunService.new(self).call(Monoz.projects, *command.split(" "))
+      end
+    end
+
     desc "projects", "Shows a list of projects in this repository"
     def projects
       Monoz.projects.order(:name).to_table
