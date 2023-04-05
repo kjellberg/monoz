@@ -18,8 +18,8 @@ module Monoz
         exit_code == 0
       end
 
-      def error?
-        exit_code == 1
+      def failed?
+        !!success?
       end
     end
   end
@@ -33,6 +33,30 @@ module Monoz
         @projects = nil
         @errors = []
         @warnings = []
+        @command = []
+      end
+
+      def call(projects, *command)
+        raise ArgumentError, "Missing command" if command.empty?
+
+        @command = command
+        if projects.is_a?(Monoz::ProjectCollection)
+          @projects = projects.all
+        elsif projects.is_a?(Monoz::Project)
+          @projects = [projects]
+        else
+          raise "Invalid projects"
+        end
+
+        run_commands
+        say ""
+
+        if errors?
+          say "Error: The command ", :red
+          say "#{command.join(" ")} ", [:red, :bold]
+          say "failed to run in one or more project directories", [:red]
+          exit(1)
+        end
       end
 
       def success?
@@ -47,54 +71,35 @@ module Monoz
         @warnings.any?
       end
 
-      def call(projects, *command)
-        raise ArgumentError, "Missing command" if command.empty?
-
-        if projects.is_a?(Monoz::ProjectCollection)
-          @projects = projects.all
-        elsif projects.is_a?(Monoz::Project)
-          @projects = [projects]
-        else
-          raise "Invalid projects"
-        end
-
-        @projects.each do |project|
-          if Monoz.tty?
-            say "[#{project.name}] ", [:blue, :bold], nil
-            say command.join(" ")
-          else
-            spinner = Monoz::Spinner.new(command.join(" "), prefix: project.name).start
-          end
-
-          response = run_commands_in_project(project, *command)
-
-          if response.success?
-            spinner&.success! unless Monoz.tty?
-          else
-            spinner&.error! unless Monoz.tty?
-            say response.output
-            say "" # line break
-            @errors << {
-              project: project.name,
-              command: command.join(" "),
-              exit_code: response.exit_code,
-              output: response.output
-            }
-          end
-        end
-
-        say ""
-
-        if errors?
-          say "Error: The command ", :red
-          say "#{command.join(" ")} ", [:red, :bold]
-          say "failed to run in one or more project directories", [:red]
-          exit(1)
-        end
-      end
-
       private
-        def run_commands_in_project(project, *command)
+        def run_commands
+          @projects.each do |project|
+            if Monoz.tty?
+              say "[#{project.name}] ", [:blue, :bold], nil
+              say @command.join(" ")
+            else
+              spinner = Monoz::Spinner.new(@command.join(" "), prefix: project.name).start
+            end
+
+            response = run_in_project(project, *@command)
+
+            if response.success?
+              spinner&.success! unless Monoz.tty?
+            else
+              spinner&.error! unless Monoz.tty?
+              say response.output
+              say "" # line break
+              @errors << {
+                project: project.name,
+                command: @command.join(" "),
+                exit_code: response.exit_code,
+                output: response.output
+              }
+            end
+          end
+        end
+
+        def run_in_project(project, *command)
           raise ArgumentError, "Invalid command" if command.empty?
 
           output = ""
