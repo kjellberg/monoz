@@ -104,13 +104,19 @@ module Monoz
           # say "#{project.name}: ", [:bold, :blue]
           # Monoz.tty? ? say(command.join(" ")) : say("#{command.join(" ")} ")
 
-          spinner = Monoz::Spinner.new(command.join(" "), prefix: project.name).start
+          if Monoz.tty?
+            say "[#{project.name}] ", [:blue, :bold], nil
+            say command.join(" ")
+          else
+            spinner = Monoz::Spinner.new(command.join(" "), prefix: project.name).start
+          end
+
           response = run_commands_in_project(project, *command)
 
           if response.success?
-            spinner.success!
+            spinner.success! unless Monoz.tty?
           else
-            spinner.error!
+            spinner.error! unless Monoz.tty?
             say response.output
             say "" # line break
             @errors << {
