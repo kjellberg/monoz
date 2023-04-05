@@ -40,6 +40,10 @@ module Monoz
       @app&.options
     end
 
+    def folders
+      config.dig("folders") || ["apps", "gems"]
+    end
+
     def tty?
       Monoz.options.dig("tty") == true
     end

@@ -11,7 +11,7 @@ module Monoz
 
     def initialize(file_path)
       @items = []
-      project_folders = Monoz.config.dig("folders") || ["apps", "gems"]
+      project_folders = Monoz.folders
 
       search_paths = project_folders.map { |folder| File.join(file_path, folder) }
 
