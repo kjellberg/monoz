@@ -40,6 +40,7 @@ module Monoz
   autoload "Configuration", "monoz/configuration"
   autoload "Project", "monoz/project"
   autoload "ProjectCollection", "monoz/project_collection"
+  autoload "Spinner", "monoz/spinner"
 
   class << self
     def app
