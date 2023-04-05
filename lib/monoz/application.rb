@@ -24,7 +24,6 @@ module Monoz
       return help("bundle") if command.nil? || command.first == "help"
 
       projects = Monoz.projects.order(:dependants)
-      Monoz::Services::BundleService.new(self).link_local_gems!(projects)
       Monoz::Services::RunService.new(self).call(projects, "bundle", *command)
 
       say "The command ran successfully in all project directories without any errors.", [:green]
