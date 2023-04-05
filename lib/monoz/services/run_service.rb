@@ -2,7 +2,7 @@
 
 require "yaml"
 require "fileutils"
-require "open3"
+require "pty"
 
 module Monoz
   module Responses
@@ -48,10 +48,16 @@ module Monoz
           raise "Invalid projects"
         end
 
+        say "Running ", nil, false
+        say command.join(" "), [:bold], false
+        say " in #{@projects.map { |p| p.name }.join(", ")}"
+
+        say ""
         run_commands
         say ""
 
         if errors?
+          say ""
           say "Error: The command ", :red
           say "#{command.join(" ")} ", [:red, :bold]
           say "failed to run in one or more project directories", [:red]
@@ -106,20 +112,17 @@ module Monoz
           exit_status = nil
 
           FileUtils.chdir(project.root_path) do
-            if Monoz.tty?
-              Open3.popen2e(*command.map { |arg| Shellwords.escape(arg) }) do |stdin, stdout_err, wait_thr|
-                while line = stdout_err.gets
+            PTY.spawn(*command.map { |arg| Shellwords.escape(arg) }) do |stdout, stdin, pid|
+              begin
+                stdout.each do |line|
                   output += line
-                  print line
+                  print line if Monoz.tty?
                 end
-
-                exit_status = wait_thr.value.exitstatus
+              rescue Errno::EIO
               end
 
-              say ""
-            else
-              output, status = Open3.capture2e(*command.map { |arg| Shellwords.escape(arg) })
-              exit_status = status.exitstatus
+              Process.wait(pid)
+              exit_status = $?.exitstatus
             end
           end
 
