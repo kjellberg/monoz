@@ -5,6 +5,67 @@ require "fileutils"
 require "open3"
 
 module Monoz
+  class Spinner
+    include Thor::Shell
+
+    def initialize(message, prefix: nil)
+      @spinner = nil
+      @message = message
+      @prefix = prefix
+    end
+
+    def start
+      @spinner = main
+      self
+    end
+
+    def success!
+      @spinner.kill
+      say_formatted(" \u2713 ", [:bold, :green])
+      say() # line break
+    end
+
+    def error!
+      @spinner.kill
+      say_formatted(" \u2717 ", [:bold, :red])
+      say() # line break
+    end
+
+    private
+      def reset
+        say("\r", nil, false)
+      end
+
+      def say_formatted(suffix, suffix_formatting = nil)
+        if @prefix != nil
+          say "\r[#{@prefix}] ", [:blue, :bold], nil
+          say @message, nil, false
+          say suffix, suffix_formatting, false
+        else
+          say "\r#{@message}", nil, false
+          say suffix, suffix_formatting, false
+        end
+      end
+
+      def main
+        spinner_count = 0
+
+        Thread.new do
+          loop do
+            dots = case spinner_count % 3
+                   when 0 then "."
+                   when 1 then ".."
+                   when 2 then "..."
+            end
+
+            say_formatted(dots)
+            spinner_count += 1
+            sleep(0.5)
+          end
+        end
+      end
+  end
+
   module Services
     class RunService < Monoz::Services::BaseService
       attr_reader :errors, :warnings
@@ -40,17 +101,18 @@ module Monoz
         end
 
         @projects.each do |project|
-          say "#{project.name}: ", [:bold, :blue]
-          Monoz.tty? ? say(command.join(" ")) : say("#{command.join(" ")} ")
+          # say "#{project.name}: ", [:bold, :blue]
+          # Monoz.tty? ? say(command.join(" ")) : say("#{command.join(" ")} ")
 
+          spinner = Monoz::Spinner.new(command.join(" "), prefix: project.name).start
           response = run_commands_in_project(project, *command)
 
           if response.success?
-            say "\u2713", [:green, :bold] unless Monoz.tty? # Checkmark symbol in green and bold
+            spinner.success!
           else
-            say "\u2717", [:red, :bold] unless Monoz.tty? # Cross symbol in red
+            spinner.error!
             say response.output
-            say ""
+            say "" # line break
             @errors << {
               project: project.name,
               command: command.join(" "),
