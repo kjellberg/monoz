@@ -6,7 +6,7 @@ require "fileutils"
 
 module Monoz
   class Application < Thor
-    class_option :tty, type: :boolean, aliases: ["--verbose", "-t"], default: false
+    class_option :verbose, type: :boolean, aliases: ["--tty", "-t"], default: false
     class_option :filter
 
     def initialize(*args)
@@ -48,6 +48,12 @@ module Monoz
     desc "version", "Get the current version of Monoz"
     def version
       say "Monoz version: #{Monoz::VERSION}"
+    end
+
+    # This method will be called when a command is not found
+    desc "[ACTION]", "Custom action"
+    def method_missing(action_name, *args)
+      Monoz::Services::ActionService.new(self).call(action_name)
     end
   end
 end

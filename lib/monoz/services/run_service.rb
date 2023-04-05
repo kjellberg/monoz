@@ -50,7 +50,7 @@ module Monoz
 
         say "Running ", nil, false
         say command.join(" "), [:bold], false
-        say " in #{@projects.map { |p| p.name }.join(", ")}"
+        say " in #{@projects.map { |p| p.name }.join(", ")}:"
 
         say ""
         run_commands
@@ -80,19 +80,19 @@ module Monoz
       private
         def run_commands
           @projects.each do |project|
-            if Monoz.tty?
+            if spinner?
+              spinner = Monoz::Spinner.new(@command.join(" "), prefix: project.name).start
+            else
               say "[#{project.name}] ", [:blue, :bold], nil
               say @command.join(" ")
-            else
-              spinner = Monoz::Spinner.new(@command.join(" "), prefix: project.name).start
             end
 
             response = run_in_project(project, *@command)
 
             if response.success?
-              spinner&.success! unless Monoz.tty?
+              spinner&.success! if spinner?
             else
-              spinner&.error! unless Monoz.tty?
+              spinner&.error! if spinner?
               say response.output
               say "" # line break
               @errors << {
@@ -103,6 +103,10 @@ module Monoz
               }
             end
           end
+        end
+
+        def spinner?
+          !Monoz.verbose?
         end
 
         def run_in_project(project, *command)
@@ -116,7 +120,7 @@ module Monoz
               begin
                 stdout.each do |line|
                   output += line
-                  print line if Monoz.tty?
+                  print line if Monoz.verbose?
                 end
               rescue Errno::EIO
               end

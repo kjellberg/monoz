@@ -12,11 +12,14 @@ module Monoz
   end
 
   module Services
+    autoload "ActionService", "monoz/services/action_service"
     autoload "BaseService", "monoz/services/base_service"
     autoload "InitService", "monoz/services/init_service"
     autoload "RunService", "monoz/services/run_service"
   end
 
+  autoload "Action", "monoz/action"
+  autoload "ActionCollection", "monoz/action_collection"
   autoload "Application", "monoz/application"
   autoload "Configuration", "monoz/configuration"
   autoload "Project", "monoz/project"
@@ -36,6 +39,10 @@ module Monoz
       @config ||= Monoz::Configuration.new(pwd)
     end
 
+    def actions
+      @actions ||= Monoz::ActionCollection.new
+    end
+
     def options
       @app&.options
     end
@@ -44,8 +51,12 @@ module Monoz
       config.dig("folders") || ["apps", "gems"]
     end
 
-    def tty?
-      Monoz.options.dig("tty") == true
+    def verbose?
+      @verbose ||= Monoz.options.dig("verbose") == true
+    end
+
+    def verbose=(value)
+      @verbose = value
     end
 
     def projects
