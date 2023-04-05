@@ -24,6 +24,7 @@ module Monoz
       return help("bundle") if command.nil? || command.first == "help"
 
       projects = Monoz.projects.order(:dependants)
+      Monoz::Services::BundleService.new(self).link_local_gems!(projects)
       Monoz::Services::RunService.new(self).call(projects, "bundle", *command)
 
       say "The command ran successfully in all project directories without any errors.", [:green]
@@ -31,10 +32,15 @@ module Monoz
 
     desc "link", "Link gems to local directories in development."
     def link
-      Monoz.projects.filter("gems").each do |gem|
-        command = "monoz bundle config local.#{gem.gem_name} #{gem.root_path}"
-        Monoz::Services::RunService.new(self).call(Monoz.projects, *command.split(" "))
-      end
+      say "Linking gems to local directories by setting the source directory in bundle config", [:blue, :bold]
+      say "Please ensure you're not including ", :yellow
+      say ".bundle/config ", [:yellow, :bold]
+      say "file in your git repository by mistake", :yellow
+      say ""
+
+      Monoz::Services::BundleService.new(self).link_local_gems!(Monoz.projects)
+
+      say "Successfully linked all gem directories without any errors.", [:green]
     end
 
     desc "projects", "Shows a list of projects in this repository"

@@ -14,6 +14,7 @@ module Monoz
   module Services
     autoload "ActionService", "monoz/services/action_service"
     autoload "BaseService", "monoz/services/base_service"
+    autoload "BundleService", "monoz/services/bundle_service"
     autoload "InitService", "monoz/services/init_service"
     autoload "RunService", "monoz/services/run_service"
   end

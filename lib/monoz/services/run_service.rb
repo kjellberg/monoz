@@ -3,6 +3,7 @@
 require "yaml"
 require "fileutils"
 require "pty"
+require "active_support/core_ext/array" # Import the necessary extension
 
 module Monoz
   module Responses
@@ -50,7 +51,7 @@ module Monoz
 
         say "Running ", nil, false
         say command.join(" "), [:bold], false
-        say " in #{@projects.map { |p| p.name }.join(", ")}:"
+        say " in #{@projects.map { |p| p.name }.to_sentence}:"
 
         say ""
         run_commands
