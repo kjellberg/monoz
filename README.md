@@ -172,7 +172,27 @@ example_com: bin/dev
 23:41:06 css.1  | Done in 354ms.
 ```
 
-### Filtering projects
+## Actions
+You can add custom actions to the `monoz.yml` file in the root directory of your project. Each action can be executed by running `monoz [ACTION]` on the command line.
+
+To define a new action, add a new key under the actions section in the `monoz.yml` file. The key should be the name of the action, and its value should be a list of tasks to be executed.
+
+Each task should have two keys: `in` and `run`. The `in` key specifies the projects in which the task should be executed. You can use the same filter syntax as when passing filters to the `--filter` option. The `run` key specifies the command to be executed.
+
+Here's an example of a custom action that runs database migrations in all `apps`:
+
+```yaml
+actions:
+  migrate:
+    - in: apps
+      run: bin/rails db:migrate
+```
+
+To execute this action, simply run `monoz migrate` on the command line. This will run the `bin/rails db:migrate` command in all projects tagged as apps.
+
+You can add as many custom actions as you like. Just make sure to follow the same format as in the example above.
+
+### Filters
 
 The `--filter` option in Monoz allows you to select certain projects based on specific criteria. This is useful if you only want to run a command on a specific subset of projects, rather than all of them. To use the `--filter` option, you simply specify a filter expression after the option. The filter expression is a comma-separated list of keywords that match the project names or tags in your Monoz configuration.
 
