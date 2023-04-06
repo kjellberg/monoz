@@ -88,16 +88,13 @@ Note that when you add a new dependency to a project, you'll need to run `monoz 
 You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run Rubocop tests in all projects, you can use the following command:
 
 ```console
-$ monoz bundle exec rubocop
+$ monoz bundle lock --add-platform aarch64-linux
 
-kiqr_core: bundle exec rubocop ✓
-content_api: bundle exec rubocop ✗
-Configuration file not found: /some/path/.rubocop.yml
+[example-core] bundle lock --add-platform aarch64-linux ✓ 
+[example-com] bundle lock --add-platform aarch64-linux ✓ 
+[example-admin] bundle lock --add-platform aarch64-linux ✓ 
 
-core_api: bundle exec rubocop ✓
-kiqr_cloud: bundle exec rubocop ✓
-
-Error: The command bundle exec rubocop failed to run in one or more project directories
+The command ran successfully in all project directories without any errors.
 ```
 
 This will execute the `bundle exec rubocop` command in each project directory, ensuring that all the necessary dependencies are installed and loaded for each project. Similarly, you can run other bundler commands such as `bundle install`, `bundle update`, and so on, by appending the desired arguments to the `monoz bundle` command.
