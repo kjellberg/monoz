@@ -85,14 +85,14 @@ Note that when you add a new dependency to a project, you'll need to run `monoz 
 
 #### Run other bundler commands
 
-You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run `bundle lock --add-platform aarch64-linux` in all projects, you can use the following command:
+You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run `bundle lock --add-platform x86_64-linux` in all projects, you can use the following command:
 
 ```console
-$ monoz bundle lock --add-platform aarch64-linux
+$ monoz bundle lock --add-platform x86_64-linux
 
-[example-core] bundle lock --add-platform aarch64-linux ✓ 
-[example-com] bundle lock --add-platform aarch64-linux ✓ 
-[example-admin] bundle lock --add-platform aarch64-linux ✓ 
+[example-core] bundle lock --add-platform x86_64-linux ✓ 
+[example-com] bundle lock --add-platform x86_64-linux ✓ 
+[example-admin] bundle lock --add-platform x86_64-linux ✓ 
 
 The command ran successfully in all project directories without any errors.
 ```
