@@ -85,7 +85,7 @@ Note that when you add a new dependency to a project, you'll need to run `monoz 
 
 #### Run other bundler commands
 
-You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run Rubocop tests in all projects, you can use the following command:
+You can also run other bundler commands on all projects in the repository using the `monoz bundle` command followed by the desired arguments. For example, to run `bundle lock --add-platform aarch64-linux` in all projects, you can use the following command:
 
 ```console
 $ monoz bundle lock --add-platform aarch64-linux
